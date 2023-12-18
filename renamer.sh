@@ -1,8 +1,11 @@
 #!/bin/bash
 
+# значения по умолчанию
 oldname=0
+pr=0
 just=0
 
+#опции
 while getopts ":hdv" opt; do
     pr=1
     if [ $opt != "--" ]; then
@@ -23,5 +26,32 @@ while getopts ":hdv" opt; do
         esac
     fi
 done
+
+# доходим до аргументов и проверяем есть ли они
+if [ $pr -eq 1 ]; then
+    shift
+fi
+
+if [ "$1" == "--" ]; then
+    echo "1=--"
+    shift
+fi
+
+if [ $# -lt 2 ]; then
+    echo "enter the suffix"
+    echo "enter the files to rename"
+    exit 1
+fi
+
+if [ $# -lt 2 ]; then
+    echo "enter the files to rename"
+    exit 1
+fi
+
+#суффикс
+suffix=$1
+
+shift
+
 
 exit 0
