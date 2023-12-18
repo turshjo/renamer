@@ -54,4 +54,49 @@ suffix=$1
 shift
 
 
+
+for file in "$@"; do
+# проверка файла
+    if [ ! -e "$file" ]; then
+	echo "the file "$file" does not exist"
+	continue
+    fi
+
+    if [ ! -w "$file" ]; then
+	echo "the file "$file" cannot be modified"
+	continue
+    fi
+
+    ffile=$(basename "$file")
+
+    extension="${ffile##*.}"
+
+    filename="${ffile%.*}"
+
+    new_filename="${filename}$suffix.${extension}"
+
+    dir=$(dirname "$file")
+    
+# проверка нового файла
+    if [ -e "$new_filename" ]; then
+        echo "file "$new_filename" is already exist"
+        continue
+    fi
+
+# -v
+    if [ $oldname -eq 1 ]; then
+        echo -n ""$ffile" --> "
+    fi
+
+    way_newfilename="$dir/$new_filename"
+
+    echo "$way_newfilename"
+
+# !-d
+    if [ $just -eq 0 ]; then
+        mv "$file" "$way_newfilename"
+    fi
+
+done
+
 exit 0
